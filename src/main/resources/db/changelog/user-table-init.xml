@@ -11,17 +11,17 @@
         </preConditions>
 
         <insert tableName="user">
-            <column name="email" value="yaruha@ukr.net"></column>
-            <column name="password" value="123"></column>
-            <column name="name" value="yaruha"></column>
+            <column name="email" value="yaruha@ukr.net"/>
+            <column name="password" value="123"/>
+            <column name="name" value="yaruha"/>
         </insert>
     </changeSet>
 
     <changeSet id="3" author="yarik" runOnChange="true">
         <insert tableName="user">
-            <column name="email" value="yana@ukr.net"></column>
-            <column name="password" value="321"></column>
-            <column name="name" value="yana"></column>
+            <column name="email" value="yana@ukr.net"/>
+            <column name="password" value="321"/>
+            <column name="name" value="yana"/>
         </insert>
     </changeSet>
 

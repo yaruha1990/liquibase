@@ -8,16 +8,16 @@
     <changeSet id="1" author="yarik">
         <preConditions onFail="CONTINUE">
             <not>
-                <tableExists tableName="user" schemaName="test"></tableExists>
+                <tableExists tableName="user" schemaName="test"/>
             </not>
         </preConditions>
         <createTable tableName="user">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"></constraints>
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="email" type="varchar(255)"></column>
-            <column name="password" type="varchar(255)"></column>
-            <column name="name" type="varchar(255)"></column>
+            <column name="email" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="name" type="varchar(255)"/>
         </createTable>
     </changeSet>
 
