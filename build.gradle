@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id 'org.liquibase.gradle' version '2.0.2'
 }
 
 group = 'com.example'
@@ -13,9 +14,33 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.8.8'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'mysql:mysql-connector-java:8.0.19'
+
+    liquibaseRuntime 'org.liquibase:liquibase-core:3.8.8'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.0.1'
 }
 
+configurations {
+    liquibaseRuntime.extendsFrom runtime
+}
+
+ext.liquibaseProps = new Properties()
+InputStream is = new FileInputStream("src/main/resources/liquibase.properties")
+liquibaseProps.load(is)
+
+liquibase {
+    activities {
+        dev {
+            changeLogFile liquibaseProps['changeLogFile']
+            url liquibaseProps['url']
+            username liquibaseProps['username']
+            password liquibaseProps['password']
+            driver liquibaseProps['driver']
+        }
+    }
+}
+
+build.dependsOn update

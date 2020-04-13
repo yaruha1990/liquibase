@@ -1,1 +1,4 @@
 rootProject.name = 'liquibase'
+gradle.ext.configFile = 'src/main/resources/application.yml'
+gradle.ext.changeLogFile = 'src/main/resources/db/changelog/master.xml'
+gradle.ext.driverClassName = 'com.mysql.cj.jdbc.Driver'
