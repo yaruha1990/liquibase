@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id "io.spring.dependency-management" version "1.0.9.RELEASE"
-    id 'org.liquibase.gradle' version '2.0.2'
 }
 
 group = 'com.example'
@@ -13,34 +12,24 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    lombokVersion = '1.18.12'
+}
+
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'mysql:mysql-connector-java:8.0.19'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    runtime 'org.liquibase:liquibase-core:3.8.8'
 
-    liquibaseRuntime 'org.liquibase:liquibase-core:3.8.8'
-    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.0.1'
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
-
-configurations {
-    liquibaseRuntime.extendsFrom runtime
+test {
+    useJUnitPlatform()
 }
-
-ext.liquibaseProps = new Properties()
-InputStream is = new FileInputStream("src/main/resources/liquibase.properties")
-liquibaseProps.load(is)
-
-liquibase {
-    activities {
-        dev {
-            changeLogFile liquibaseProps['changeLogFile']
-            url liquibaseProps['url']
-            username liquibaseProps['username']
-            password liquibaseProps['password']
-            driver liquibaseProps['driver']
-        }
-    }
-}
-
-build.dependsOn update
